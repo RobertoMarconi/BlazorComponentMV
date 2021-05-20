@@ -2,9 +2,14 @@
 
 <h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
 
-<input placeholder="Data" @bind="minhaData"> 
 <input placeholder="Something todo" @bind="newTodo" />
 <button @onclick="AddTodo">Adicionar todo</button>
+
+
+<input placeholder="Something todo" @bind="quantidade" />
+<button @onclick="AddMany">Adicionar todo</button>
+
+@*<button @onclick="ChangeTodos">Adicionar todo</button>*@
 
 <ul>
     @foreach (var todo in todos.OrderBy(o => o.Title).ToList())
@@ -19,20 +24,22 @@
 
 @code {
     private IList<TodoItem> todos = new List<TodoItem>();
+    private int quantidade;
     private string newTodo;
-    private DateTimeOffset minhaData = DateTimeOffset.Now;
+    private bool ValorTodos;
+
+ 
+
+    private void AddMany()
+    {
+        for (int i=1;i<=quantidade;i++)
+        {
+            todos.Add(new TodoItem { Title = Guid.NewGuid().ToString()});
+        }
+    }
 
     private void AddTodo()
     {
-        try
-        {
-
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
         if (!string.IsNullOrWhiteSpace(newTodo))
         {
             //persistir
