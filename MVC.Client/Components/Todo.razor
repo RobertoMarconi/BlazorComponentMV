@@ -9,32 +9,44 @@
 <input placeholder="Something todo" @bind="quantidade" />
 <button @onclick="AddMany">Adicionar todo</button>
 
+<button @onclick="MarcarTodos">Marcar todos</button>
+
 @*<button @onclick="ChangeTodos">Adicionar todo</button>*@
 
 <ul>
     @foreach (var todo in todos.OrderBy(o => o.Title).ToList())
     {
-        <li>
+        if (!todo.IsDone)
+        {
+            <li>
             <input type="checkbox" @bind="todo.IsDone" />
-            <input @bind="todo.Title" />
+            <input @bind="todo.Title" data-teste="@todo.Title" />
         </li>
+        }
     }
 </ul>
 
 
 @code {
-    private IList<TodoItem> todos = new List<TodoItem>();
+    private List<TodoItem> todos = new List<TodoItem>();
     private int quantidade;
     private string newTodo;
-    private bool ValorTodos;
+    private bool ValorTodos = false;
+    private string data1;
+    private string data2;
 
- 
-
+    
+      private void MarcarTodos()
+    {
+        ValorTodos = !ValorTodos;
+        todos.ForEach(t => t.IsDone = ValorTodos);
+    }
     private void AddMany()
     {
-        for (int i=1;i<=quantidade;i++)
+        data1 = DateTime.Now.ToUniversalTime().ToString();
+        for (int i = 1; i <= quantidade; i++)
         {
-            todos.Add(new TodoItem { Title = Guid.NewGuid().ToString()});
+            todos.Add(new TodoItem { Title = Guid.NewGuid().ToString() });
         }
     }
 
@@ -49,6 +61,12 @@
             todos.Add(new TodoItem { Title = newTodo });
             newTodo = string.Empty;
         }
-
     }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        data2 = DateTime.Now.ToUniversalTime().ToString();
+    }
+
 }

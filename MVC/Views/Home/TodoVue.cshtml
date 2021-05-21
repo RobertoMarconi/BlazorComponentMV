@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<div id="list-rendering">
+    <span>vai carregar aqui</span>
+</div>
+@*<div id="app2">
+    <span>{{ resultText }}</span>
+</div>*@
+
+@section Scripts {
+<script type="text/javascript">
+
+        const App2 = {
+                data() {
+                    return {resultText: 'aaa'}
+                    }
+            }
+            Vue.createApp(App2).mount('#app2')
+
+
+            const ListRendering = {
+      data() {
+        return {
+          todos: [
+            { text: 'Learn JavaScript' },
+            { text: 'Learn Vue' },
+            { text: 'Build something awesome' }
+          ]
+        }
+      },
+      template: `<ol>
+        <li v-for="todo in 5000">
+            {{ todo }}
+        </li>
+    </ol>`
+    }
+
+    Vue.createApp(ListRendering).mount('#list-rendering')
+</script>
+}
